@@ -1,19 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_putstr_fd.c                                     :+:      :+:    :+:   */
+/*   is_dead.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mtellami <mtellami@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/12/09 18:24:55 by mtellami          #+#    #+#             */
-/*   Updated: 2022/12/09 18:28:59 by mtellami         ###   ########.fr       */
+/*   Created: 2022/12/10 13:58:47 by mtellami          #+#    #+#             */
+/*   Updated: 2022/12/12 14:28:30 by mtellami         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philosophers.h"
 
-void	ft_putstr_fd(int fd, char *str)
+int	is_dead(t_philo *philo)
 {
-	while (str && *str)
-		ft_putchar_fd(fd, *str++);
+	if (current_time() > philo->survive)
+	{
+		state(philo, philo->survive, DIED);
+		philo->main->over = 1;
+		return (FAILURE);
+	}
+	return (SUCCESS);
 }

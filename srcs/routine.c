@@ -6,7 +6,7 @@
 /*   By: mtellami <mtellami@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/08 15:42:00 by mtellami          #+#    #+#             */
-/*   Updated: 2022/12/11 10:39:40 by mtellami         ###   ########.fr       */
+/*   Updated: 2022/12/12 14:33:39 by mtellami         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,8 +21,9 @@ void	*routine(void *arg)
 	philo->survive = philo->last_meal + philo->main->args.t_die;
 	while (1)
 	{
-		if (take_fork(philo) || eat(philo) || put_fork(philo))
+		if (eat(philo) || sleep_think(philo))
 			break ;
 	}
+	philo->main->exit++;
 	return (NULL);
 }

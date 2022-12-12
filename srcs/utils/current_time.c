@@ -1,24 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_putnbr_fd.c                                     :+:      :+:    :+:   */
+/*   current_time.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mtellami <mtellami@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/12/09 18:26:19 by mtellami          #+#    #+#             */
-/*   Updated: 2022/12/09 18:28:21 by mtellami         ###   ########.fr       */
+/*   Created: 2022/12/09 11:12:08 by mtellami          #+#    #+#             */
+/*   Updated: 2022/12/12 15:34:36 by mtellami         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philosophers.h"
 
-void	ft_putnbr_fd(int fd, size_t n)
+size_t	current_time(void)
 {
-	if (n > 9)
-	{
-		ft_putnbr_fd(fd, n / 10);
-		ft_putnbr_fd(fd, n % 10);
-	}
-	else
-		ft_putchar_fd(fd, n + '0');
+	size_t					now;
+	static struct timeval	time;
+
+	gettimeofday(&time, NULL);
+	now = (time.tv_sec * 1000) + (time.tv_usec / 1000);
+	return (now);
 }
