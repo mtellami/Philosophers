@@ -6,7 +6,7 @@
 /*   By: mtellami <mtellami@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/08 14:48:55 by mtellami          #+#    #+#             */
-/*   Updated: 2022/12/12 14:33:04 by mtellami         ###   ########.fr       */
+/*   Updated: 2022/12/12 19:27:33 by mtellami         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,6 +68,7 @@ int	mutex_init(t_main *main)
 	while (i < main->args.n_philo)
 		pthread_mutex_init(main->mutex + i++, NULL);
 	pthread_mutex_init(&main->state, NULL);
+	pthread_mutex_init(&main->finished, NULL);
 	return (SUCCESS);
 }
 

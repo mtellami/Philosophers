@@ -6,7 +6,7 @@
 /*   By: mtellami <mtellami@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/09 11:15:45 by mtellami          #+#    #+#             */
-/*   Updated: 2022/12/12 15:34:00 by mtellami         ###   ########.fr       */
+/*   Updated: 2022/12/13 15:44:04 by mtellami         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,6 +57,11 @@ int	put_fork(t_philo *philo)
 	pthread_mutex_lock(philo->main->mutex + philo->r_fork);
 	philo->main->args.forks[philo->r_fork] = 1;
 	pthread_mutex_unlock(philo->main->mutex + philo->r_fork);
+	if (philo->main->args.nt_ph_eat == philo->meals)
+	{
+		state(philo, current_time(), FINISHED);
+		return (FAILURE);
+	}
 	return (SUCCESS);
 }
 
@@ -69,7 +74,8 @@ int	eat(t_philo *philo)
 	waiting(philo->main->args.t_eat);
 	philo->survive = philo->last_meal + philo->main->args.t_die;
 	philo->meals++;
-	put_fork(philo);
+	if (put_fork(philo))
+		return (FAILURE);
 	return (SUCCESS);
 }
 

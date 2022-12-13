@@ -6,7 +6,7 @@
 /*   By: mtellami <mtellami@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/04 13:06:55 by mtellami          #+#    #+#             */
-/*   Updated: 2022/12/12 15:32:50 by mtellami         ###   ########.fr       */
+/*   Updated: 2022/12/13 13:20:28 by mtellami         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,7 @@
 # define SLEEPING 5
 # define THINKING 6
 # define DIED 7
+# define FINISHED 8
 
 /* ------------ Structs ------------- */
 typedef struct s_philo
@@ -64,6 +65,7 @@ typedef struct s_main
 	pthread_t		*tid;
 	pthread_mutex_t	*mutex;
 	pthread_mutex_t	state;
+	pthread_mutex_t	finished;
 	size_t			over;
 	size_t			exit;
 }	t_main;

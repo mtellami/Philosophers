@@ -6,7 +6,7 @@
 /*   By: mtellami <mtellami@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/10 13:58:47 by mtellami          #+#    #+#             */
-/*   Updated: 2022/12/12 14:28:30 by mtellami         ###   ########.fr       */
+/*   Updated: 2022/12/12 16:22:53 by mtellami         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,10 +14,11 @@
 
 int	is_dead(t_philo *philo)
 {
+	if (philo->main->over == 1)
+		return (FAILURE);
 	if (current_time() > philo->survive)
 	{
 		state(philo, philo->survive, DIED);
-		philo->main->over = 1;
 		return (FAILURE);
 	}
 	return (SUCCESS);
