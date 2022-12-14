@@ -1,32 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   philosophers.c                                     :+:      :+:    :+:   */
+/*   is_dead.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mtellami <mtellami@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/12/04 13:07:36 by mtellami          #+#    #+#             */
-/*   Updated: 2022/12/12 19:21:21 by mtellami         ###   ########.fr       */
+/*   Created: 2022/12/14 11:27:32 by mtellami          #+#    #+#             */
+/*   Updated: 2022/12/14 18:06:42 by mtellami         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "philosophers.h"
+#include "philo.h"
 
-int	main(int ac, char **av)
+int	is_dead(t_philo *philo)
 {
-	t_main	main;
-
-	if (ac != 5 && ac != 6)
-		return (ft_errors(N_ARGS));
-	if (initialize(ac, av, &main))
-		return (FAILURE);
-	if (launch(&main))
-		return (FAILURE);
-	destroy(&main);
-	while (1)
+	if (ptime() > philo->survive)
 	{
-		if (main.exit == main.args.n_philo)
-			break ;
+		state(philo, philo->survive - philo->main->start, DIED);
+		pthread_mutex_lock(&philo->main->mutexes.over);
+		philo->main->over = 1;
+		pthread_mutex_unlock(&philo->main->mutexes.over);
+		return (FAILURE);
 	}
 	return (SUCCESS);
 }

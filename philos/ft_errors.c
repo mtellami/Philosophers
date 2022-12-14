@@ -1,27 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   destroy.c                                          :+:      :+:    :+:   */
+/*   ft_errors.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mtellami <mtellami@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/12/08 15:40:00 by mtellami          #+#    #+#             */
-/*   Updated: 2022/12/10 14:21:21 by mtellami         ###   ########.fr       */
+/*   Created: 2022/12/14 08:31:58 by mtellami          #+#    #+#             */
+/*   Updated: 2022/12/14 08:35:01 by mtellami         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "philosophers.h"
+#include "philo.h"
 
-int	destroy(t_main *main)
+int	ft_errors(int err)
 {
-	size_t	i;
-
-	i = 0;
-	while (i < main->args.n_philo)
-	{
-		pthread_mutex_destroy(main->mutex + i);
-		i++;
-	}
-	pthread_mutex_destroy(&main->state);
-	return (SUCCESS);
+	if (err == NARGERR)
+		printf("Error : invalid number of arguments\n");
+	else if (err == ARGERR)
+		printf("Error : wrong arguments\n");
+	else if (err == MALLOCERR)
+		printf("Error : fail allocate memory\n");
+	else if (err == THREADERR)
+		printf("Error : fail creating threads\n");
+	return (FAILURE);
 }

@@ -1,19 +1,19 @@
 NAME = philo
-CFLAGS = -Wall -Wextra -Werror -pthread -I .
-SRCS = philosophers.c \
-	libft/ft_atol.c libft/ft_errors.c srcs/initialize.c srcs/launch.c \
-	srcs/destroy.c srcs/routine.c srcs/utils/current_time.c srcs/actions.c \
-	srcs/utils/is_dead.c srcs/utils/state.c srcs/utils/waiting.c \
+CFLAGS = -Wall -Wextra -Werror -pthread -I includes
+SRC = philos/philo.c \
+	philos/actions.c philos/destroy.c philos/ft_atol.c philos/ft_errors.c \
+	philos/initialize.c philos/is_dead.c philos/is_over.c philos/launch.c \
+	philos/ptime.c philos/routine.c philos/state.c philos/waiting.c \
 
-OBJS = $(SRCS:.c=.o)
+OBJ = $(SRC:.c=.o)
 
 all : $(NAME)
 
-$(NAME) : $(OBJS)
-		cc $(CFLAGS) $(OBJS) -o $(NAME)
+$(NAME) : $(OBJ)
+		cc $(CFLAGS) $(OBJ) -o $(NAME)
 
 clean :
-		rm -fr $(OBJS)
+		rm -fr $(OBJ)
 
 fclean : clean
 		rm -fr $(NAME)

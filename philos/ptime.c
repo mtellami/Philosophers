@@ -1,31 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   routine.c                                          :+:      :+:    :+:   */
+/*   ptime.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mtellami <mtellami@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/12/08 15:42:00 by mtellami          #+#    #+#             */
-/*   Updated: 2022/12/12 19:29:13 by mtellami         ###   ########.fr       */
+/*   Created: 2022/12/14 09:56:28 by mtellami          #+#    #+#             */
+/*   Updated: 2022/12/14 10:00:35 by mtellami         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "philosophers.h"
+#include "philo.h"
 
-void	*routine(void *arg)
+size_t	ptime(void)
 {
-	t_philo	*philo;
+	static struct timeval	time;
+	size_t					now;
 
-	philo = (t_philo *)arg;
-	philo->last_meal = current_time();
-	philo->survive = philo->last_meal + philo->main->args.t_die;
-	while (1)
-	{
-		if (eat(philo) || sleep_think(philo))
-			break ;
-	}
-	pthread_mutex_lock(&philo->main->finished);
-	philo->main->exit++;
-	pthread_mutex_unlock(&philo->main->finished);
-	return (NULL);
+	gettimeofday(&time, NULL);
+	now = (time.tv_sec * 1000) + (time.tv_usec / 1000);
+	return (now);
 }

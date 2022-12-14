@@ -1,22 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   waiting.c                                          :+:      :+:    :+:   */
+/*   routine.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mtellami <mtellami@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/12/09 16:15:18 by mtellami          #+#    #+#             */
-/*   Updated: 2022/12/12 15:34:44 by mtellami         ###   ########.fr       */
+/*   Created: 2022/12/14 09:50:29 by mtellami          #+#    #+#             */
+/*   Updated: 2022/12/14 09:57:56 by mtellami         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "philosophers.h"
+#include "philo.h"
 
-void	waiting(size_t ms)
+void	*routine(void *arg)
 {
-	size_t	date;
+	t_philo	*philo;
 
-	date = current_time() + ms;
-	while (current_time() < date)
-		usleep(ms / 1000);
+	philo = (t_philo *)arg;
+	philo->last_meal = ptime();
+	philo->survive = philo->last_meal + philo->main->arg.tdie;
+	while (1)
+	{
+		if (eat(philo) || sleep_think(philo))
+			break ;
+	}
+	pthread_mutex_lock(&philo->main->mutexes.texit);
+	philo->main->exit++;
+	pthread_mutex_unlock(&philo->main->mutexes.texit);
+	return (NULL);
 }

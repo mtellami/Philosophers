@@ -1,23 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   current_time.c                                     :+:      :+:    :+:   */
+/*   ft_atol.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mtellami <mtellami@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/12/09 11:12:08 by mtellami          #+#    #+#             */
-/*   Updated: 2022/12/12 15:34:36 by mtellami         ###   ########.fr       */
+/*   Created: 2022/12/14 10:01:29 by mtellami          #+#    #+#             */
+/*   Updated: 2022/12/14 10:02:47 by mtellami         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "philosophers.h"
+#include "philo.h"
 
-size_t	current_time(void)
+int	ft_atol(char *str, size_t *arg)
 {
-	size_t					now;
-	static struct timeval	time;
-
-	gettimeofday(&time, NULL);
-	now = (time.tv_sec * 1000) + (time.tv_usec / 1000);
-	return (now);
+	if (!(*str))
+		return (FAILURE);
+	*arg = 0;
+	while (*str && *str >= '0' && *str <= '9')
+		*arg = (*arg * 10) + (*str++ - '0');
+	if (*str || !(*arg))
+		return (FAILURE);
+	return (SUCCESS);
 }

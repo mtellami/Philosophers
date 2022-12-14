@@ -1,25 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_atol.c                                          :+:      :+:    :+:   */
+/*   philo.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mtellami <mtellami@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/12/05 15:06:15 by mtellami          #+#    #+#             */
-/*   Updated: 2022/12/05 15:25:13 by mtellami         ###   ########.fr       */
+/*   Created: 2022/12/14 07:33:34 by mtellami          #+#    #+#             */
+/*   Updated: 2022/12/14 11:54:14 by mtellami         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "philosophers.h"
+#include "philo.h"
 
-int	ft_atol(char *str, size_t *arg)
+int	main(int ac, char **av)
 {
-	if (!(*str))
+	t_main	main;
+
+	if (ac != 5 && ac != 6)
+		return (ft_errors(NARGERR));
+	if (initialize(ac, av, &main))
 		return (FAILURE);
-	*arg = 0;
-	while (*str && *str >= '0' && *str <= '9')
-		*arg = (*arg * 10) + (*str++ - '0');
-	if (*str || !(*arg))
+	if (launch(&main))
 		return (FAILURE);
-	return (SUCCESS);
+	while (1)
+		if (main.exit == main.arg.nphilo)
+			break;
+	destroy(&main);
+	return (FAILURE);
 }

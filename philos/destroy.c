@@ -1,25 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   is_dead.c                                          :+:      :+:    :+:   */
+/*   destroy.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mtellami <mtellami@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/12/10 13:58:47 by mtellami          #+#    #+#             */
-/*   Updated: 2022/12/12 16:22:53 by mtellami         ###   ########.fr       */
+/*   Created: 2022/12/14 10:03:59 by mtellami          #+#    #+#             */
+/*   Updated: 2022/12/14 11:20:41 by mtellami         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "philosophers.h"
+#include "philo.h"
 
-int	is_dead(t_philo *philo)
+int	destroy(t_main *main)
 {
-	if (philo->main->over == 1)
-		return (FAILURE);
-	if (current_time() > philo->survive)
+	size_t	i;
+
+	i = 0;
+	while (i < main->arg.nphilo)
 	{
-		state(philo, philo->survive, DIED);
-		return (FAILURE);
+		pthread_mutex_destroy(main->mutexes.mforks + i);
+		i++;
 	}
+	pthread_mutex_destroy(&main->mutexes.state);
+	pthread_mutex_destroy(&main->mutexes.texit);
+	pthread_mutex_destroy(&main->mutexes.over);
 	return (SUCCESS);
 }
