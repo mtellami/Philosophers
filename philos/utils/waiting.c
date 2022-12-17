@@ -1,25 +1,22 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_atol.c                                          :+:      :+:    :+:   */
+/*   waiting.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mtellami <mtellami@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/12/14 10:01:29 by mtellami          #+#    #+#             */
-/*   Updated: 2022/12/14 10:02:47 by mtellami         ###   ########.fr       */
+/*   Created: 2022/12/09 16:15:18 by mtellami          #+#    #+#             */
+/*   Updated: 2022/12/17 12:59:58 by mtellami         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-int	ft_atol(char *str, size_t *arg)
+void	waiting(size_t start, size_t ms)
 {
-	if (!(*str))
-		return (FAILURE);
-	*arg = 0;
-	while (*str && *str >= '0' && *str <= '9')
-		*arg = (*arg * 10) + (*str++ - '0');
-	if (*str || !(*arg))
-		return (FAILURE);
-	return (SUCCESS);
+	size_t	date;
+
+	date = current_time(start) + ms;
+	while (current_time(start) < date)
+		usleep(1);
 }

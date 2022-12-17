@@ -1,22 +1,22 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   waiting.c                                          :+:      :+:    :+:   */
+/*   philo_bonus.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mtellami <mtellami@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/12/14 10:30:32 by mtellami          #+#    #+#             */
-/*   Updated: 2022/12/14 10:31:17 by mtellami         ###   ########.fr       */
+/*   Created: 2022/12/13 16:48:47 by mtellami          #+#    #+#             */
+/*   Updated: 2022/12/13 18:58:54 by mtellami         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "philo.h"
+#include "../includes/philo_bonus.h"
 
-void	waiting(size_t ms)
+int	main(int ac, char **av)
 {
-	size_t	date;
+	t_main	main;
 
-	date = ptime() + ms;
-	while (ptime() < date)
-		usleep(ms / 1000);
+	if (ac != 5 && ac != 6)
+		return (ft_errors(N_ARGS));
+	
 }

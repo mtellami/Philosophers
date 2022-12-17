@@ -1,21 +1,33 @@
 NAME = philo
+BONUS = philo_bonus
 CFLAGS = -Wall -Wextra -Werror -pthread -I includes
-SRC = philos/philo.c \
-	philos/actions.c philos/destroy.c philos/ft_atol.c philos/ft_errors.c \
-	philos/initialize.c philos/is_dead.c philos/is_over.c philos/launch.c \
-	philos/ptime.c philos/routine.c philos/state.c philos/waiting.c \
+SRCS = philos/philo.c \
+	libft/ft_atol.c libft/ft_errors.c philos/initialize.c philos/launch.c \
+	philos/destroy.c philos/routine.c philos/utils/current_time.c philos/actions.c \
+	philos/utils/is_dead.c philos/utils/state.c philos/utils/waiting.c \
 
-OBJ = $(SRC:.c=.o)
+B_SRCS = philos_bonus/philo_bonus.c \
+	libft/ft_atol.c libft/ft_errors.c \
+
+
+OBJS = $(SRCS:.c=.o)
+
+B_OBJS = $(B_SRCS:.c=.o)
 
 all : $(NAME)
 
-$(NAME) : $(OBJ)
-		cc $(CFLAGS) $(OBJ) -o $(NAME)
+$(NAME) : $(OBJS)
+		cc $(CFLAGS) $(OBJS) -o $(NAME)
+
+bonus : $(BONUS)
+
+$(BONUS) : $(B_OBJS)
+		cc $(CFLAGS) $(B_OBJS) -o $(BONUS)
 
 clean :
-		rm -fr $(OBJ)
+		rm -fr $(OBJS) $(B_OBJS)
 
 fclean : clean
-		rm -fr $(NAME)
+		rm -fr $(NAME) $(BONUS)
 
 re : fclean all

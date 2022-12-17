@@ -5,32 +5,32 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: mtellami <mtellami@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/12/14 08:30:53 by mtellami          #+#    #+#             */
-/*   Updated: 2022/12/14 15:26:09 by mtellami         ###   ########.fr       */
+/*   Created: 2022/12/08 14:48:55 by mtellami          #+#    #+#             */
+/*   Updated: 2022/12/13 17:04:48 by mtellami         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-int	arg_init(int ac, char **av, t_main *main)
+int	args_init(int ac, char **av, t_main *main)
 {
 	size_t	i;
 
-	if (ft_atol(av[1], &main->arg.nphilo)
-		|| ft_atol(av[2], &main->arg.tdie)
-		|| ft_atol(av[3], &main->arg.teat)
-		|| ft_atol(av[4], &main->arg.tsleep))
-		return (ft_errors(ARGERR));
-	if (ac == 6 && ft_atol(av[5], &main->arg.nmeals))
-		return (ft_errors(ARGERR));
+	if (ft_atol(av[1], &main->args.n_philo)
+		|| ft_atol(av[2], &main->args.t_die)
+		|| ft_atol(av[3], &main->args.t_eat)
+		|| ft_atol(av[4], &main->args.t_sleep))
+		return (ft_errors(ARGS));
+	if (ac == 6 && ft_atol(av[5], &main->args.nt_ph_eat))
+		return (ft_errors(ARGS));
 	else if (ac == 5)
-		main->arg.nmeals = 0;
-	main->arg.forks = malloc(sizeof(size_t) * main->arg.nphilo);
-	if (!main->arg.forks)
-		return (ft_errors(MALLOCERR));
+		main->args.nt_ph_eat = 0;
+	main->args.forks = malloc(sizeof(size_t) * main->args.n_philo);
+	if (!main->args.forks)
+		return (ft_errors(MALLOC));
 	i = 0;
-	while (i < main->arg.nphilo)
-		main->arg.forks[i++] = 1;
+	while (i < main->args.n_philo)
+		main->args.forks[i++] = 1;
 	main->over = 0;
 	main->exit = 0;
 	return (SUCCESS);
@@ -40,16 +40,16 @@ int	philos_init(t_main *main)
 {
 	size_t	i;
 
-	main->philos = malloc(sizeof(t_philo) * main->arg.nphilo);
-	main->tid = malloc(sizeof(pthread_t) * main->arg.nphilo);
+	main->philos = malloc(sizeof(t_philo) * main->args.n_philo);
+	main->tid = malloc(sizeof(pthread_t) * main->args.n_philo);
 	if (!main->philos || !main->tid)
-		return (ft_errors(MALLOCERR));
+		return (ft_errors(MALLOC));
 	i = 0;
-	while (i < main->arg.nphilo)
+	while (i < main->args.n_philo)
 	{
 		main->philos[i].index = i + 1;
-		main->philos[i].lfork = i;
-		main->philos[i].rfork = (i + 1) % main->arg.nphilo;
+		main->philos[i].l_fork = i;
+		main->philos[i].r_fork = (i + 1) % main->args.n_philo;
 		main->philos[i].meals = 0;
 		main->philos[i].main = main;
 		i++;
@@ -61,21 +61,20 @@ int	mutex_init(t_main *main)
 {
 	size_t	i;
 
-	main->mutexes.mforks = malloc(sizeof(pthread_mutex_t) * main->arg.nphilo);
-	if (!main->mutexes.mforks)
-		return (ft_errors(MALLOCERR));
+	main->mutex = malloc(sizeof(pthread_mutex_t) * main->args.n_philo);
+	if (!main->mutex)
+		return (ft_errors(MALLOC));
 	i = 0;
-	while (i < main->arg.nphilo)
-		pthread_mutex_init(main->mutexes.mforks + i++, NULL);
-	pthread_mutex_init(&main->mutexes.state, NULL);
-	pthread_mutex_init(&main->mutexes.texit, NULL);
-	pthread_mutex_init(&main->mutexes.over, NULL);
+	while (i < main->args.n_philo)
+		pthread_mutex_init(main->mutex + i++, NULL);
+	pthread_mutex_init(&main->state, NULL);
+	pthread_mutex_init(&main->finished, NULL);
 	return (SUCCESS);
 }
 
 int	initialize(int ac, char **av, t_main *main)
 {
-	if (arg_init(ac, av, main))
+	if (args_init(ac, av, main))
 		return (FAILURE);
 	if (philos_init(main))
 		return (FAILURE);

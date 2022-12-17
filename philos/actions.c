@@ -5,21 +5,21 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: mtellami <mtellami@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/12/14 10:19:01 by mtellami          #+#    #+#             */
-/*   Updated: 2022/12/14 18:00:14 by mtellami         ###   ########.fr       */
+/*   Created: 2022/12/09 11:15:45 by mtellami          #+#    #+#             */
+/*   Updated: 2022/12/17 13:17:20 by mtellami         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-size_t	pick_fork(t_philo *philo, int i)
+int	pick_fork(t_philo *philo, int i)
 {
 	size_t	fork;
 
-	if (i != 0)
-		fork = philo->rfork;
+	if (i)
+		fork = philo->r_fork;
 	else
-		fork = philo->lfork;
+		fork = philo->l_fork;
 	return (fork);
 }
 
@@ -28,36 +28,38 @@ int	take_fork(t_philo *philo)
 	int		i;
 	size_t	fork;
 
+	if (philo->main->args.nt_ph_eat
+		&& philo->meals == philo->main->args.nt_ph_eat)
+		return (FAILURE);
 	i = 0;
 	while (i < 2)
 	{
-		if (is_dead(philo))
+		if (is_dead(philo) || philo->main->over)
 			return (FAILURE);
 		fork = pick_fork(philo, i);
-		pthread_mutex_lock(philo->main->mutexes.mforks + fork);
-		if (philo->main->arg.forks[fork])
+		pthread_mutex_lock(philo->main->mutex + fork);
+		if (philo->main->args.forks[fork])
 		{
-			state(philo, ptime() - philo->main->start, T_FORK);
-			philo->main->arg.forks[fork] = 0;
+			state(philo, current_time(philo->start), T_FORK);
+			philo->main->args.forks[fork] = 0;
 			i++;
 		}
-		pthread_mutex_unlock(philo->main->mutexes.mforks + fork);
+		pthread_mutex_unlock(philo->main->mutex + fork);
 	}
 	return (SUCCESS);
 }
 
 int	put_fork(t_philo *philo)
 {
-	pthread_mutex_lock(philo->main->mutexes.mforks + philo->lfork);
-	philo->main->arg.forks[philo->lfork] = 1;
-	pthread_mutex_unlock(philo->main->mutexes.mforks + philo->lfork);
-	pthread_mutex_lock(philo->main->mutexes.mforks + philo->rfork);
-	philo->main->arg.forks[philo->rfork] = 1;
-	pthread_mutex_unlock(philo->main->mutexes.mforks + philo->rfork);
-	if (philo->main->arg.nmeals
-		&& philo->main->arg.nmeals == philo->meals)
+	pthread_mutex_lock(philo->main->mutex + philo->l_fork);
+	philo->main->args.forks[philo->l_fork] = 1;
+	pthread_mutex_unlock(philo->main->mutex + philo->l_fork);
+	pthread_mutex_lock(philo->main->mutex + philo->r_fork);
+	philo->main->args.forks[philo->r_fork] = 1;
+	pthread_mutex_unlock(philo->main->mutex + philo->r_fork);
+	if (philo->main->args.nt_ph_eat == philo->meals)
 	{
-		state(philo, ptime() - philo->main->start, FINISHED);
+		state(philo, current_time(philo->start), FINISHED);
 		return (FAILURE);
 	}
 	return (SUCCESS);
@@ -65,12 +67,12 @@ int	put_fork(t_philo *philo)
 
 int	eat(t_philo *philo)
 {
-	if (take_fork(philo))
+	if (take_fork(philo) || philo->main->over)
 		return (FAILURE);
-	philo->last_meal = ptime();
-	state(philo, philo->last_meal - philo->main->start, EATING);
-	waiting(philo->main->arg.teat);
-	philo->survive = philo->last_meal + philo->main->arg.tdie;
+	philo->last_meal = current_time(philo->start);
+	state(philo, philo->last_meal, EATING);
+	waiting(philo->start, philo->main->args.t_eat);
+	philo->survive = philo->last_meal + philo->main->args.t_die;
 	philo->meals++;
 	if (put_fork(philo))
 		return (FAILURE);
@@ -79,13 +81,13 @@ int	eat(t_philo *philo)
 
 int	sleep_think(t_philo *philo)
 {
-	if (is_over(philo))
+	if (philo->main->over)
 		return (FAILURE);
-	state(philo, philo->last_meal + philo->main->arg.teat - philo->main->start, SLEEPING);
-	waiting(philo->main->arg.tsleep);
-	if (is_dead(philo) || is_over(philo))
+	state(philo, philo->last_meal + philo->main->args.t_eat, SLEEPING);
+	waiting(philo->start, philo->main->args.t_sleep);
+	if (is_dead(philo))
 		return (FAILURE);
-	state(philo, philo->last_meal + philo->main->arg.teat
-		+ philo->main->arg.tsleep - philo->main->start, THINKING);
+	state(philo, philo->last_meal + philo->main->args.t_eat
+		+ philo->main->args.t_sleep, THINKING);
 	return (SUCCESS);
 }
