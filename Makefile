@@ -8,6 +8,9 @@ SRCS = philos/philo.c \
 
 B_SRCS = philos_bonus/philo_bonus.c \
 	libft/ft_atol.c libft/ft_errors.c \
+	philos_bonus/actions.c philos_bonus/current_time.c philos_bonus/initialize_bonus.c \
+	philos_bonus/launch.c philos_bonus/routine.c philos_bonus/state.c philos_bonus/waiting.c \
+	philos_bonus/is_dead.c philos_bonus/destroy.c\
 
 
 OBJS = $(SRCS:.c=.o)

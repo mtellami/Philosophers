@@ -1,27 +1,22 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   philo_bonus.c                                      :+:      :+:    :+:   */
+/*   waiting.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mtellami <mtellami@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/12/13 16:48:47 by mtellami          #+#    #+#             */
-/*   Updated: 2022/12/19 03:08:36 by mtellami         ###   ########.fr       */
+/*   Created: 2022/12/18 19:09:20 by mtellami          #+#    #+#             */
+/*   Updated: 2022/12/18 19:09:44 by mtellami         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo_bonus.h"
 
-int	main(int ac, char **av)
+void	waiting(size_t start, size_t ms)
 {
-	t_main	main;
+	size_t	date;
 
-	if (ac != 5 && ac != 6)
-		return (ft_errors(N_ARGS));
-	if (initialize_bonus(ac, av, &main))
-		return (FAILURE);
-	launch(&main);
-	sem_wait(main.semaphores.die);
-	destroy(&main);
-	return (SUCCESS);
+	date = current_time(start) + ms;
+	while (current_time(start) < date)
+		usleep(1);
 }

@@ -1,27 +1,22 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   philo_bonus.c                                      :+:      :+:    :+:   */
+/*   destroy.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mtellami <mtellami@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/12/13 16:48:47 by mtellami          #+#    #+#             */
-/*   Updated: 2022/12/19 03:08:36 by mtellami         ###   ########.fr       */
+/*   Created: 2022/12/19 00:12:23 by mtellami          #+#    #+#             */
+/*   Updated: 2022/12/19 00:13:02 by mtellami         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo_bonus.h"
 
-int	main(int ac, char **av)
+void	destroy(t_main *main)
 {
-	t_main	main;
+	size_t	i;
 
-	if (ac != 5 && ac != 6)
-		return (ft_errors(N_ARGS));
-	if (initialize_bonus(ac, av, &main))
-		return (FAILURE);
-	launch(&main);
-	sem_wait(main.semaphores.die);
-	destroy(&main);
-	return (SUCCESS);
+	i = 0;
+	while (i < main->args.n_philo)
+		kill(main->philos[i++].pid, SIGKILL);
 }
