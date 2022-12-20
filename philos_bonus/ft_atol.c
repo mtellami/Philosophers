@@ -1,29 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   routine.c                                          :+:      :+:    :+:   */
+/*   ft_atol.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mtellami <mtellami@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/12/18 18:56:41 by mtellami          #+#    #+#             */
-/*   Updated: 2022/12/19 17:41:31 by mtellami         ###   ########.fr       */
+/*   Created: 2022/12/19 14:47:39 by mtellami          #+#    #+#             */
+/*   Updated: 2022/12/19 14:47:56 by mtellami         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo_bonus.h"
 
-void	*routine(void *arg)
+int	ft_atol(char *str, size_t *arg)
 {
-	t_philo	*philo;
-
-	philo = (t_philo *)arg;
-	philo->start = current_time(0);
-	philo->last_meal = 0;
-	philo->survive = philo->last_meal + philo->main->args.t_die;
-	while (1)
-	{
-		if (eat(philo) || sleep_think(philo))
-			break ;
-	}
-	return (NULL);
+	if (!(*str))
+		return (FAILURE);
+	*arg = 0;
+	while (*str && *str >= '0' && *str <= '9')
+		*arg = (*arg * 10) + (*str++ - '0');
+	if (*str || !(*arg))
+		return (FAILURE);
+	return (SUCCESS);
 }

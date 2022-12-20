@@ -1,29 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   routine.c                                          :+:      :+:    :+:   */
+/*   ft_errors.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mtellami <mtellami@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/12/18 18:56:41 by mtellami          #+#    #+#             */
-/*   Updated: 2022/12/19 17:41:31 by mtellami         ###   ########.fr       */
+/*   Created: 2022/12/19 14:47:06 by mtellami          #+#    #+#             */
+/*   Updated: 2022/12/19 14:47:32 by mtellami         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo_bonus.h"
 
-void	*routine(void *arg)
+int	ft_errors(int err)
 {
-	t_philo	*philo;
-
-	philo = (t_philo *)arg;
-	philo->start = current_time(0);
-	philo->last_meal = 0;
-	philo->survive = philo->last_meal + philo->main->args.t_die;
-	while (1)
-	{
-		if (eat(philo) || sleep_think(philo))
-			break ;
-	}
-	return (NULL);
+	if (err == N_ARGS)
+		printf("Error : invalid number of arguments\n");
+	else if (err == ARGS)
+		printf("Error : wrong arguments\n");
+	else if (err == MALLOC)
+		printf("Error : fail memory allocation\n");
+	else if (err == THREAD_ERR)
+		printf("Error : fail creating threads\n");
+	return (FAILURE);
 }

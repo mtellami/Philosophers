@@ -6,11 +6,11 @@
 /*   By: mtellami <mtellami@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/18 18:02:39 by mtellami          #+#    #+#             */
-/*   Updated: 2022/12/19 03:21:09 by mtellami         ###   ########.fr       */
+/*   Updated: 2022/12/19 14:31:16 by mtellami         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/philo_bonus.h"
+#include "philo_bonus.h"
 
 int	take_fork(t_philo *philo)
 {

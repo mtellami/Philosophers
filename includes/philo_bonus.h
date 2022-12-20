@@ -6,7 +6,7 @@
 /*   By: mtellami <mtellami@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/13 16:02:50 by mtellami          #+#    #+#             */
-/*   Updated: 2022/12/19 04:09:19 by mtellami         ###   ########.fr       */
+/*   Updated: 2022/12/19 14:37:31 by mtellami         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,6 +79,7 @@ typedef struct s_main
 int		ft_errors(int err);
 int		ft_atol(char *str, size_t *arg);
 
+/* ------------ Srcs ------------- */
 void	waiting(size_t start, size_t ms);
 int		eat(t_philo *philo);
 int		sleep_think(t_philo *philo);
